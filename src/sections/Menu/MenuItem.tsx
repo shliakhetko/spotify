@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { IconType } from "react-icons";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { MenuSectionType } from "../../redux/reducers/menuReducer";
+import {
+  MenuSectionType,
+  stringToMenuSectionType,
+} from "../../redux/reducers/menuReducer";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
+import { MenuTypes } from "../../redux/enum-types";
 
 type Props = {
   Icon: IconType;
   HoverIcon?: IconType;
   title: string;
-  actionType: string;
+  actionType: MenuTypes;
 };
 
 export const MenuItem = (props: Props) => {
@@ -29,13 +33,11 @@ export const MenuItem = (props: Props) => {
     <button
       className={classNames(
         "h-1/2 w-full p-2 flex items-center hover:text-white transition",
-        isSelected ? "text-white" : "text-gray-600"
+        isSelected ? "text-white" : "text-neutral-400"
       )}
       onClick={() => {
         dispatch({
-          type: MenuActionTypes[
-            props.actionType as keyof typeof MenuSectionType
-          ],
+          type: MenuActionTypes[props.actionType],
         });
         console.log(state);
       }}
@@ -50,7 +52,10 @@ export const MenuItem = (props: Props) => {
         {isSelected ? <HoverIcon size={iconSize} /> : <Icon size={iconSize} />}
       </div>
       <span
-        className={classNames("ml-3 mt-1 font-bold md:block hidden", isHover && "underline")}
+        className={classNames(
+          "ml-3 mt-1 font-bold md:block hidden",
+          isHover && "underline"
+        )}
       >
         {props.title}
       </span>
