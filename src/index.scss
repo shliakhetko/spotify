@@ -16,3 +16,23 @@ html, body {
   width: 100%;
   background-color: #000;
 }
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+  transition: 0.5s;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #444;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   return (
-    <div className="App flex p-1 select-none">
+    <div className="App max-h-full flex p-1 select-none">
       <div className="w-1/4 p-1">
         <Menu />
         <Library />
