@@ -5,59 +5,46 @@ import { CiFolderOn } from "react-icons/ci";
 import { useAppDispatch } from "../../redux/hooks";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 import { MenuTypes } from "../../redux/enum-types";
+import ItemType from "../../models/ItemType";
+import Playlist from "../../models/Items/Playlist";
+import Folder from "../../models/Items/Folder";
+import Album from "../../models/Items/Album";
+import { DisplayLibraryItem } from "../../components/ItemDisplays/DisplayLibraryItem";
+import Artist from "../../models/Items/Artist";
 
-export enum LibraryListItemType {
-  PLAYLIST = "playlist",
-  ARTIST = "artist",
-  FOLDER = "folder",
-}
+export type ListItemProps = Album | Playlist | Artist | Folder;
 
-interface Playlist {
-  title: string;
-  type: LibraryListItemType.PLAYLIST;
-  id: string;
-  owner: string;
-  image?: HTMLImageElement | string;
-}
+type Props = ListItemProps | { type: "ID"};
 
-interface Artist {
-  title: string;
-  id: string;
-  type: LibraryListItemType.ARTIST;
-  image?: HTMLImageElement | string;
-}
-
-type FolderContent = Folder | Playlist;
-
-interface Folder {
-  title: string;
-  type: LibraryListItemType.FOLDER;
-  contents: FolderContent[];
-}
-
-export type ListItemProps = Playlist | Artist | Folder;
-
-export const LibraryItem = (props: ListItemProps) => {
+export const LibraryItem = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const type = props.type;
-  const roundedClass =
-    type === LibraryListItemType.ARTIST ? "rounded-full" : "rounded-md";
+
+  if (type === "ID") {
+    console.log("Got ID");
+  }
 
   const [isOpened, setOpened] = useState(false);
 
-  return (
+  return type !== "ID" ? (
     <>
       <button
-        className="w-full p-2 flex hover:bg-neutral-900 rounded-md relative"
+        className="w-full flex hover:bg-neutral-900 rounded-md relative"
         onClick={() => {
-          if (type === LibraryListItemType.PLAYLIST) {
+          if (type === ItemType.PLAYLIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.PLAYLIST],
               payload: props.id,
             });
           }
-          if (type === LibraryListItemType.ARTIST) {
+          if (type === ItemType.ALBUM) {
+            dispatch({
+              type: MenuActionTypes[MenuTypes.ALBUM],
+              payload: props.id,
+            });
+          }
+          if (type === ItemType.ARTIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.ARTIST],
               payload: props.id,
@@ -65,38 +52,8 @@ export const LibraryItem = (props: ListItemProps) => {
           }
         }}
       >
-        <div
-          className={classNames(
-            "h-12 w-12 flex justify-center items-center bg-neutral-800 text-neutral-300",
-            roundedClass
-          )}
-        >
-          {type === LibraryListItemType.FOLDER ? (
-            <CiFolderOn size={32} />
-          ) : (
-            props.image !== undefined &&
-            typeof props.image === "string" && (
-              <img
-                className={classNames("object-cover", roundedClass)}
-                alt={props.title}
-                src={props.image}
-              />
-            )
-          )}
-        </div>
-        <div className="ml-4 mt-1 flex flex-col justify-center text-left leading-tight">
-          <span className="text-white">{props.title}</span>
-          <span className="text-neutral-400">
-            {type === LibraryListItemType.FOLDER ? (
-              <>{props.contents.length} Playlists</>
-            ) : type === LibraryListItemType.ARTIST ? (
-              <>Artist</>
-            ) : (
-              type === LibraryListItemType.PLAYLIST && <>Playlist • {props.owner}</>
-            )}
-          </span>
-        </div>
-        {type === LibraryListItemType.FOLDER && (
+        <DisplayLibraryItem {...props} />
+        {type === ItemType.FOLDER && (
           <div
             className={classNames(
               "absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white",
@@ -110,13 +67,13 @@ export const LibraryItem = (props: ListItemProps) => {
           </div>
         )}
       </button>
-      {type === LibraryListItemType.FOLDER && (
+      {type === ItemType.FOLDER && (
         <div className={classNames("pl-3", !isOpened && "hidden")}>
-          {props.contents.map((content, i) => (
-            <LibraryItem key={i} {...content} />
+          {props.contents.length > 0 && props.contents.map((content, i) => (
+            <LibraryItem {...content} />
           ))}
         </div>
       )}
     </>
-  );
+  ) : <></>
 };

@@ -1,6 +1,7 @@
 import React from "react";
-import { LibraryItem, LibraryListItemType, ListItemProps } from "./LibraryItem";
+import { LibraryItem, ListItemProps } from "./LibraryItem";
 import { LibraryFilterItemProps } from "./LibraryFilterItem";
+import ItemType from "../../models/ItemType";
 
 type Props = {
   library: ListItemProps[];
@@ -14,13 +15,13 @@ export const LibraryList = (props: Props) => {
       {props.library.map((content, i) =>
         props.currentFilter !== undefined &&
         props.currentFilter.type !== undefined ? (
-          props.currentFilter.type === LibraryListItemType.ARTIST ? (
+          props.currentFilter.type === ItemType.ARTIST ? (
             props.currentFilter.type === content.type && (
               <LibraryItem key={i} {...content} />
             )
           ) : (
-            (content.type === LibraryListItemType.PLAYLIST ||
-              content.type === LibraryListItemType.FOLDER) && (
+            (content.type === ItemType.PLAYLIST ||
+              content.type === ItemType.FOLDER) && (
               <LibraryItem key={i} {...content} />
             )
           )

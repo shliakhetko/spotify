@@ -10,7 +10,7 @@ export const Library = () => {
   const [currentFilter, setCurrentFilter] = useState(noneFilter);
 
   return (
-    <div className="h-full w-full p-2 rounded-lg bg-neutral-950">
+    <div className="h-[calc(100%-7rem)] w-full p-2 rounded-lg bg-neutral-950">
       <LibraryTitle />
       <LibraryFilter
         currentFilter={currentFilter}
