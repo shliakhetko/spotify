@@ -1,6 +1,7 @@
 export enum MenuActionTypes {
   HOME = "SWITCH-HOME",
   SEARCH = "SWITCH-SEARCH",
+  ALBUM = "SWITCH-ALBUM",
   PLAYLIST = "SWITCH-PLAYLIST",
   ARTIST = "SWITCH-ARTIST"
 }
