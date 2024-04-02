@@ -5,6 +5,9 @@ import { useAppDispatch } from "./redux/hooks";
 import { LayoutActionTypes } from "./redux/action-types/layoutActionTypes";
 import { config } from "process";
 import { leftSectionSize } from "./config";
+import { PlayerSection } from "./sections/Player/PlayerSection";
+import { MainSection } from "./sections/Main/MainSection";
+import { AdditionalSection } from "./sections/Additional/AdditionalSection";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -34,13 +37,18 @@ function App() {
         />
         <PanelResizeHandle />
         <Panel order={2} defaultSize={50} minSize={25} maxSize={50}>
-          <div className="w-2/3 p-1"></div>
+        <div className="w-2/3 h-full p-1">
+          <MainSection/>
+        </div>
         </Panel>
         <PanelResizeHandle />
         <Panel order={3} defaultSize={25}>
-          <div className="w-1/4 p-1"></div>
+        <div className="w-1/4 h-full p-1">
+          <AdditionalSection/>
+        </div>
         </Panel>
       </PanelGroup>
+      <PlayerSection />
     </div>
   );
 }

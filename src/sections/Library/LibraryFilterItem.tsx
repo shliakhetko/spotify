@@ -1,11 +1,11 @@
 import React from "react";
-import { LibraryListItemType } from "./LibraryItem";
 import { RxCross2 } from "react-icons/rx";
 import classNames from "classnames";
+import ItemType from "../../models/ItemType";
 
 export type LibraryFilterItemProps = {
   title: string;
-  type: LibraryListItemType.ARTIST | LibraryListItemType.PLAYLIST | undefined;
+  type: ItemType.ARTIST | ItemType.PLAYLIST | undefined;
 };
 
 interface Props extends LibraryFilterItemProps {

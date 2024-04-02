@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { LibraryFilterItem, LibraryFilterItemProps } from "./LibraryFilterItem";
-import { LibraryListItemType } from "./LibraryItem";
+import ItemType from "../../models/ItemType";
 
 const filters: LibraryFilterItemProps[] = [
   {
     title: "Playlists",
-    type: LibraryListItemType.PLAYLIST,
+    type: ItemType.PLAYLIST,
   },
   {
     title: "Artists",
-    type: LibraryListItemType.ARTIST,
+    type: ItemType.ARTIST,
   },
 ];
 
