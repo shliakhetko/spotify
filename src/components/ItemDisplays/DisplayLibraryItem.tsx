@@ -13,7 +13,7 @@ export const DisplayLibraryItem = (props: Item) => {
     <div className="p-2 flex">
       <div
         className={classNames(
-          "h-12 w-12 flex justify-center items-center bg-neutral-800 text-neutral-300",
+          "min-h-12 min-w-12 max-h-12 max-w-12 flex justify-center items-center bg-neutral-800 text-neutral-300",
           roundedClass
         )}
       >
@@ -23,7 +23,7 @@ export const DisplayLibraryItem = (props: Item) => {
           props.image !== undefined &&
           typeof props.image === "string" && (
             <img
-              className={classNames("object-cover", roundedClass)}
+              className={classNames("h-12 w-12 object-cover", roundedClass)}
               alt={props.title}
               src={props.image}
             />
@@ -31,16 +31,16 @@ export const DisplayLibraryItem = (props: Item) => {
         )}
       </div>
       <div className="ml-4 mt-1 flex flex-col justify-center text-left leading-tight">
-        <span className="text-white">{props.title}</span>
-        <span className="text-neutral-400">
+        <span className="text-white whitespace-nowrap">{props.title}</span>
+        <span className="text-neutral-400 whitespace-nowrap">
           {type === ItemType.FOLDER ? (
             <>{props.contents.length} Playlists</>
           ) : type === ItemType.ARTIST ? (
             <>Artist</>
           ) : type === ItemType.PLAYLIST ? (
-            <>Playlist • {props.owner.length > 0 && props.owner[0]}</>
+            <>Playlist • {props.owner.length > 0 && props.owner[0].title}</>
           ) : (
-            type === ItemType.ALBUM && <>Album • {props.owner.length > 0 && props.owner[0]}</>
+            type === ItemType.ALBUM && <>Album • {props.owner.length > 0 && props.owner[0].title}</>
           )}
         </span>
       </div>

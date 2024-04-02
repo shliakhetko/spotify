@@ -11,24 +11,25 @@ type Props = {
 export const LibraryList = (props: Props) => {
   return (
     <div className="">
-      <div className=""></div>
-      {props.library.map((content, i) =>
-        props.currentFilter !== undefined &&
-        props.currentFilter.type !== undefined ? (
-          props.currentFilter.type === ItemType.ARTIST ? (
-            props.currentFilter.type === content.type && (
-              <LibraryItem key={i} {...content} />
+      <ul className="">
+        {props.library.map((content, i) =>
+          props.currentFilter !== undefined &&
+            props.currentFilter.type !== undefined ? (
+            props.currentFilter.type === ItemType.ARTIST ? (
+              props.currentFilter.type === content.type && (
+                <li key={i}><LibraryItem {...content} /></li>
+              )
+            ) : (
+              (content.type === ItemType.PLAYLIST ||
+                content.type === ItemType.FOLDER) && (
+                <li key={i}><LibraryItem {...content} /></li>
+              )
             )
           ) : (
-            (content.type === ItemType.PLAYLIST ||
-              content.type === ItemType.FOLDER) && (
-              <LibraryItem key={i} {...content} />
-            )
+            <li key={i}><LibraryItem {...content} /></li>
           )
-        ) : (
-          <LibraryItem key={i} {...content} />
-        )
-      )}
+        )}
+      </ul>
     </div>
   );
 };

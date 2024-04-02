@@ -1,7 +1,5 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { IconType } from "react-icons";
-import { CiFolderOn } from "react-icons/ci";
 import { useAppDispatch } from "../../redux/hooks";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 import { MenuTypes } from "../../redux/enum-types";
@@ -68,11 +66,11 @@ export const LibraryItem = (props: Props) => {
         )}
       </button>
       {type === ItemType.FOLDER && (
-        <div className={classNames("pl-3", !isOpened && "hidden")}>
+        <ul className={classNames("pl-3", !isOpened && "hidden")}>
           {props.contents.length > 0 && props.contents.map((content, i) => (
-            <LibraryItem {...content} />
+            <li key={i}><LibraryItem {...content} /></li>
           ))}
-        </div>
+        </ul>
       )}
     </>
   ) : <></>
