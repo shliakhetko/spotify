@@ -7,7 +7,7 @@ import {
   stringToMenuSectionType,
 } from "../../redux/reducers/menuReducer";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
-import { MenuTypes } from "../../redux/enum-types";
+import { MenuTypes } from "../../redux/enum-types/menuTypes";
 
 type Props = {
   Icon: IconType;

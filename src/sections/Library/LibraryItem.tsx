@@ -2,9 +2,9 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { IconType } from "react-icons";
 import { CiFolderOn } from "react-icons/ci";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
-import { MenuTypes } from "../../redux/enum-types";
+import { MenuTypes } from "../../redux/enum-types/menuTypes";
 
 export enum LibraryListItemType {
   PLAYLIST = "playlist",
@@ -39,6 +39,7 @@ export type ListItemProps = Playlist | Artist | Folder;
 
 export const LibraryItem = (props: ListItemProps) => {
   const dispatch = useAppDispatch();
+  const isSmall = useAppSelector((state) => state.layout.leftSectionCollapsed);
 
   const type = props.type;
   const roundedClass =
@@ -49,7 +50,7 @@ export const LibraryItem = (props: ListItemProps) => {
   return (
     <>
       <button
-        className="w-full p-2 flex hover:bg-neutral-900 rounded-md relative"
+        className={classNames("w-full flex hover:bg-neutral-900 rounded-md relative", !isSmall && "p-2")}
         onClick={() => {
           if (type === LibraryListItemType.PLAYLIST) {
             dispatch({
@@ -67,7 +68,7 @@ export const LibraryItem = (props: ListItemProps) => {
       >
         <div
           className={classNames(
-            "h-12 w-12 flex justify-center items-center bg-neutral-800 text-neutral-300",
+            "max-h-12 min-h-12 max-w-12 min-w-12 flex justify-center items-center bg-neutral-800 text-neutral-300",
             roundedClass
           )}
         >
@@ -85,16 +86,18 @@ export const LibraryItem = (props: ListItemProps) => {
           )}
         </div>
         <div className="ml-4 mt-1 flex flex-col justify-center text-left leading-tight">
-          <span className="text-white">{props.title}</span>
+          {!isSmall && <><span className="text-white">{props.title}</span>
           <span className="text-neutral-400">
             {type === LibraryListItemType.FOLDER ? (
               <>{props.contents.length} Playlists</>
             ) : type === LibraryListItemType.ARTIST ? (
               <>Artist</>
             ) : (
-              type === LibraryListItemType.PLAYLIST && <>Playlist • {props.owner}</>
+              type === LibraryListItemType.PLAYLIST && (
+                <>Playlist • {props.owner}</>
+              )
             )}
-          </span>
+          </span></>}
         </div>
         {type === LibraryListItemType.FOLDER && (
           <div
