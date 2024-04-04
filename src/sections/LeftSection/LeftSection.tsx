@@ -7,10 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
 
 type Props = {
-  defaultSize: number;
   collapsedSize: number;
   minSize: number;
-  maxSize: number;
 };
 
 export const LeftSection = (props: Props) => {
@@ -73,13 +71,13 @@ export const LeftSection = (props: Props) => {
       // ref={panelRef}
       collapsible={true}
       order={1}
-      defaultSize={props.defaultSize}
+      defaultSize={10}
       collapsedSize={props.collapsedSize}
       minSize={props.minSize}
-      maxSize={props.maxSize}
+      maxSize={75}
       onResize={dispatchLeft}
       onCollapse={dispatchLeft} 
-      className="h-full w-full p-1 bg-red-200"
+      className="h-full w-full p-1"
     >
       <div
         ref={widthRef}

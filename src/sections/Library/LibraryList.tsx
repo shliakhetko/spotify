@@ -10,7 +10,7 @@ type Props = {
 
 export const LibraryList = (props: Props) => {
   return (
-    <div className="">
+    <div className="max-h-[calc(100%-6.35rem)] h-full pr-4 overflow-y-hidden hover:pr-1 hover:overflow-y-scroll">
       <ul className="">
         {props.library.map((content, i) =>
           props.currentFilter !== undefined &&

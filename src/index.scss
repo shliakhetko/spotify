@@ -16,6 +16,15 @@ body {
   height: 100vh;
   width: 100%;
   background-color: #000;
+  color:#fff; 
+}
+
+span{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 ::-webkit-scrollbar {

@@ -19,7 +19,7 @@ export const SectionBigImageItem = (props: Props) => {
     }
 
     return (
-        <div className='mx-3'>
+        <div className='mx-3 w-[100%-5px]'>
             <div className='flex justify-between items-center'>
                 <span className={classNames('text-xl font-bold', props.isExtendable && 'hover:underline cursor-pointer')} onClick={showAll}>{props.title}</span>
                 {props.isExtendable && <span className='text-sm text-neutral-400 hover:underline cursor-pointer' onClick={showAll}>Show all</span>}

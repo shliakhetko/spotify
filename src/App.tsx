@@ -11,7 +11,7 @@ import { AdditionalSection } from "./sections/Additional/AdditionalSection";
 
 function App() {
   const dispatch = useAppDispatch();
-  const [minSize, setMinSize] = useState(5);
+  const [minSize, setMinSize] = useState<number>(0);
 
   useLayoutEffect(() => {
     dispatch({
@@ -27,26 +27,12 @@ function App() {
   }, []);
 
   return (
-    <div className="App max-h-full flex select-none">
+    <div className="App max-h-full flex flex-col select-none">
       <PanelGroup direction="horizontal" className="h-full w-full flex p-1">
-        <LeftSection
-          defaultSize={25}
-          minSize={minSize*4}
-          collapsedSize={minSize}
-          maxSize={75}
-        />
+        <LeftSection minSize={minSize * 4} collapsedSize={minSize} />
         <PanelResizeHandle />
-        <Panel order={2} defaultSize={50} minSize={25} maxSize={50}>
-        <div className="w-2/3 h-full p-1">
-          <MainSection/>
-        </div>
-        </Panel>
-        <PanelResizeHandle />
-        <Panel order={3} defaultSize={25}>
-        <div className="w-1/4 h-full p-1">
-          <AdditionalSection/>
-        </div>
-        </Panel>
+        <MainSection />
+        <AdditionalSection />
       </PanelGroup>
       <PlayerSection />
     </div>

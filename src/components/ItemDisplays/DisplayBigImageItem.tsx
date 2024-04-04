@@ -2,10 +2,10 @@ import React, { useRef } from 'react'
 import Item from '../../models/Item';
 import ItemType from '../../models/ItemType';
 import classNames from 'classnames';
-import { FaPlay } from "react-icons/fa6";
 
 import "./index.scss";
 import useRefWidth from '../../hooks/useRefWidth';
+import { PlayButton } from '../buttons/PlayButton';
 
 export const DisplayBigImageItem = (props: Item) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export const DisplayBigImageItem = (props: Item) => {
             />
           )
         )}
-        <button className='right-2 bottom-2 absolute p-3 rounded-full bg-green-500 text-black'><FaPlay /></button>
+        <PlayButton className='p-3 right-2 bottom-2 absolute'/>
       </div>
       <div className="mt-2 flex flex-col justify-center text-left leading-tight">
         <span className="text-white text-sm">{props.title}</span>
