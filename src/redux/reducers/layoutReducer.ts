@@ -1,9 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {
-  setLeftSectionCollapsed,
-  setLeftSectionExpanded,
-  setScreenWidth,
-} from "../actions/layoutActions";
+import { leftSection, setLeftSection, setScreenWidth } from "../actions/layoutActions";
 
 export interface LayoutState {
   screenWidth: number;
@@ -20,11 +16,11 @@ const layoutReducer = createReducer(layoutInitialState, (builder) => {
     .addCase(setScreenWidth, (state, action) => {
       state.screenWidth = action.payload;
     })
-    .addCase(setLeftSectionExpanded, (state, action) => {
-      state.leftSectionCollapsed = false;
+    .addCase(setLeftSection, (state, action) => {
+      state.leftSectionCollapsed = action.payload;
     })
-    .addCase(setLeftSectionCollapsed, (state, action) => {
-      state.leftSectionCollapsed = true;
+    .addCase(leftSection, (state, action) => {
+      state.leftSectionCollapsed = !state.leftSectionCollapsed;
     });
 });
 

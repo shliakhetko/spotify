@@ -9,50 +9,58 @@ import Folder from "../../models/Items/Folder";
 import Album from "../../models/Items/Album";
 import { DisplayLibraryItem } from "../../components/ItemDisplays/DisplayLibraryItem";
 import Artist from "../../models/Items/Artist";
+import { Identificator } from "../../models/ID";
+import Item from "../../models/Item";
+import { Interface } from "readline";
+import { getItem } from "../../data/userData";
 
 export type ListItemProps = Album | Playlist | Artist | Folder;
 
-type Props = ListItemProps | { type: "ID"};
+type Props = { item: ListItemProps | Identificator | null };
 
 export const LibraryItem = (props: Props) => {
   const dispatch = useAppDispatch();
   const isSmall = useAppSelector((state) => state.layout.leftSectionCollapsed);
 
-  const type = props.type;
+  const [item, setItem] = useState<Item>(props.item as Item);
 
-  if (type === "ID") {
+  if (props.item !== null && props.item.type === "id") {
+    getItem(props.item.getType, props.item.id).then((res) => {
+      setItem(res);
+    });
     console.log("Got ID");
   }
 
   const [isOpened, setOpened] = useState(false);
 
-  return type !== "ID" ? (
+  return (
     <>
       <button
         className="w-full flex hover:bg-neutral-900 rounded-md relative"
         onClick={() => {
-          if (type === ItemType.PLAYLIST) {
+          if (item === null) return;
+          if (item.type === ItemType.PLAYLIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.PLAYLIST],
-              payload: props.id,
+              payload: { id: item.id, type: item.type },
             });
           }
-          if (type === ItemType.ALBUM) {
+          if (item.type === ItemType.ALBUM) {
             dispatch({
               type: MenuActionTypes[MenuTypes.ALBUM],
-              payload: props.id,
+              payload: { id: item.id, type: item.type },
             });
           }
-          if (type === ItemType.ARTIST) {
+          if (item.type === ItemType.ARTIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.ARTIST],
-              payload: props.id,
+              payload: { id: item.id, type: item.type },
             });
           }
         }}
       >
-        <DisplayLibraryItem {...props} />
-        {type === ItemType.FOLDER && (
+        <DisplayLibraryItem item={item} />
+        {item !== null && item.type === ItemType.FOLDER && (
           <div
             className={classNames(
               "absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white",
@@ -66,13 +74,16 @@ export const LibraryItem = (props: Props) => {
           </div>
         )}
       </button>
-      {type === ItemType.FOLDER && (
+      {item !== null && item.type === ItemType.FOLDER && (
         <ul className={classNames("pl-3", !isOpened && "hidden")}>
-          {props.contents.length > 0 && props.contents.map((content, i) => (
-            <li key={i}><LibraryItem {...content} /></li>
-          ))}
+          {item.contents.length > 0 &&
+            item.contents.map((content, i) => (
+              <li key={i}>
+                <LibraryItem item={content} />
+              </li>
+            ))}
         </ul>
       )}
     </>
-  ) : <></>
+  );
 };

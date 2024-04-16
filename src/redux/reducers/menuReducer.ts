@@ -10,7 +10,7 @@ import {
   switchToNext,
   switchToPrevious,
 } from "../actions/menuActions";
-import ID from "../../models/ID";
+import ID, { Identificator as Identificator } from "../../models/ID";
 import Item from "../../models/Item";
 
 export interface ItemList { 
@@ -37,7 +37,7 @@ export interface MenuState {
   | MenuSectionType.ARTIST
   | MenuSectionType.LIST
   | MenuSectionType.LYRICS;
-  content: ID | { title: string, list: Item[] } | undefined;
+  content: Identificator | ItemList | undefined;
   previous: MenuState[];
   next: MenuState[]
 }

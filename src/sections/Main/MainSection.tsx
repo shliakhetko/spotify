@@ -8,6 +8,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa";
 import { List } from "./List";
 import { Panel } from "react-resizable-panels";
+import { Playlist } from "./Playlist";
 
 export const MainSection = () => {
   const dispatch = useAppDispatch();
@@ -59,6 +60,8 @@ export const MainSection = () => {
             <Home />
           ) : state.section === MenuSectionType.LIST ? (
             <List />
+          ) : state.section === MenuSectionType.PLAYLIST ? (
+            <Playlist />
           ) : (
             <></>
           )}

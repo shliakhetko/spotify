@@ -5,6 +5,7 @@ import { ImperativePanelHandle, Panel } from "react-resizable-panels";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
+import useRefWidth from "../../hooks/useRefWidth";
 
 type Props = {
   collapsedSize: number;
@@ -14,21 +15,15 @@ type Props = {
 export const LeftSection = (props: Props) => {
   const dispatch = useAppDispatch();
 
-  // const panelRef = useRef<ImperativePanelHandle>(null);
+  const panelRef = useRef<ImperativePanelHandle>(null);
   const widthRef = useRef<HTMLDivElement | null>(null);
 
-  // const [width, setWidth] = useState<number>(0);
+  const width = useRefWidth(widthRef);
 
   // const screenWidth = useAppSelector((state) => state.layout.screenWidth);
 
   // const minSize = (props.minSize * screenWidth) / 100;
   // const [isTimeToCollapse, setIsTimeToCollapse] = useState(false);
-
-  const getSize: () => number = () => {
-    if (widthRef.current != null) {
-      return widthRef.current.clientWidth;
-    } else return 0;
-  };
 
   // const onWidthChange = () => {
   //   setWidth(getSize());
@@ -57,18 +52,23 @@ export const LeftSection = (props: Props) => {
   }, []);
 
   const dispatchLeft = () => {
-    console.log(getSize());
+    if (!panelRef.current) return;
+    const collapsed = width < props.minSize;
+
     dispatch({
-      type:
-        getSize() < props.minSize
-          ? LayoutActionTypes.LEFT_SECTION_COLLAPSED
-          : LayoutActionTypes.LEFT_SECTION_EXPANDED,
+      type: LayoutActionTypes.SET_LEFT_SECTION,
+      payload: collapsed,
     });
+    if (!collapsed) {
+      panelRef.current.expand();
+    } else {
+      panelRef.current.collapse();
+    }
   };
 
   return (
     <Panel
-      // ref={panelRef}
+      ref={panelRef}
       collapsible={true}
       order={1}
       defaultSize={10}
@@ -76,7 +76,7 @@ export const LeftSection = (props: Props) => {
       minSize={props.minSize}
       maxSize={75}
       onResize={dispatchLeft}
-      onCollapse={dispatchLeft} 
+      onCollapse={dispatchLeft}
       className="h-full w-full p-1"
     >
       <div

@@ -1,1 +1,1 @@
-export const leftSectionSize = 80;
+export const leftSectionSize = 64;
