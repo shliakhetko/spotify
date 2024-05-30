@@ -71,7 +71,7 @@ export const LeftSection = (props: Props) => {
       ref={panelRef}
       collapsible={true}
       order={1}
-      defaultSize={10}
+      defaultSize={20}
       collapsedSize={props.collapsedSize}
       minSize={props.minSize}
       maxSize={75}

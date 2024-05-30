@@ -17,4 +17,6 @@ export const removeFromQueue = createAction<Track>(PlayerActionTypes.REOVE_FROM_
 export const remix = createAction(PlayerActionTypes.REMIX);
 export const loop = createAction(PlayerActionTypes.LOOP);
 
+export const setPause = createAction(PlayerActionTypes.SET_PAUSE);
+export const setPlay = createAction(PlayerActionTypes.SET_PLAY);
 export const volume = createAction<number>(PlayerActionTypes.VOLUME);

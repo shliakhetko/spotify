@@ -9,5 +9,7 @@ export enum PlayerActionTypes {
     REMIX = "REMIX",
     LOOP = "LOOP",
 
+    SET_PAUSE = "SET-PAUSE",
+    SET_PLAY = "SET-PLAY",
     VOLUME = "VOLUME"
 }

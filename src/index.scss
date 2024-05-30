@@ -47,6 +47,13 @@ span{
   background: #666;
 }
 
+.react-loading-skeleton{
+  background-color: #3a3a3a!important;
+  &::after{
+    background: linear-gradient(90deg, transparent, #444, transparent)!important;
+  }
+}
+
 input[type="range"] {
   font-size: 1.5rem;
 }

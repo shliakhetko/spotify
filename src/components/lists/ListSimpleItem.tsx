@@ -4,10 +4,11 @@ import ItemType from "../../models/ItemType";
 import useRefWidth from "../../hooks/useRefWidth";
 import classNames from "classnames";
 import { DisplaySimpleItem } from "../ItemDisplays/DisplaySimpleItem";
+import { ChangeColorContainer } from "../containers/ChangeColorContainer";
+import Playlist from "../../models/Items/Playlist";
 
 interface Props {
   list: Item[];
-  setCurrentImage?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const ListSimpleItem = (props: Props) => {
@@ -36,13 +37,10 @@ export const ListSimpleItem = (props: Props) => {
         {list.map(
           (item, i) =>
             item.type !== ItemType.FOLDER && (
-              <li
-                key={i}
-                className="h-fit w-full p-1 cursor-pointer"
-                onMouseEnter={()=>{props.setCurrentImage && props?.setCurrentImage(item.image||"")}}
-                onMouseLeave={()=>{props.setCurrentImage && props?.setCurrentImage(null)}}
-              >
-                <DisplaySimpleItem {...item} />
+              <li key={i} className="h-fit w-full p-1 cursor-pointer">
+                <ChangeColorContainer item={item as Playlist}>
+                  <DisplaySimpleItem {...item} />
+                </ChangeColorContainer>
               </li>
             )
         )}

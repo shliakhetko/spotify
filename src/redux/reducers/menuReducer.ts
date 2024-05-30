@@ -74,6 +74,7 @@ const menuReducer = createReducer(menuInitialState, (builder) => {
       state.section = MenuSectionType.PLAYLIST;
       state.content = action.payload;
       state.next = [];
+      console.log("Switched to playlist", action.payload);
     })
     .addCase(switchArtist, (state, action) => {
       state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });

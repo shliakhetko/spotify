@@ -5,7 +5,7 @@ import { ArtistID, ArtistView } from "./Artist";
 import {ImageURL} from "../url";
 import DefaultItem from "../DefaultItem";
 
-export type PlaylistContent = TrackID;
+export type PlaylistContent = Track;
 
 interface Playlist extends DefaultItem {
     type: ItemType.PLAYLIST;

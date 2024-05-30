@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import React from "react";
-import { FaPlay } from "react-icons/fa";
+import { FaPause, FaPlay } from "react-icons/fa";
 import "../ItemDisplays/index.scss";
 
 interface Props {
   className?: string;
   onClick?: () => void;
-  size?: number
+  size?: number;
+  isPlaying?: boolean;
 }
 
 export const PlayButton = (props: Props) => {
@@ -18,7 +19,7 @@ export const PlayButton = (props: Props) => {
       )}
       onClick={() => props.onClick}
     >
-      <FaPlay size={props.size} />
+      {props.isPlaying ? <FaPause size={props.size} /> : <FaPlay size={props.size} />}
     </button>
   );
 };

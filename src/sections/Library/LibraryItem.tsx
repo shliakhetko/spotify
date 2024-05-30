@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 import { MenuTypes } from "../../redux/enum-types/menuTypes";
@@ -22,14 +22,21 @@ export const LibraryItem = (props: Props) => {
   const dispatch = useAppDispatch();
   const isSmall = useAppSelector((state) => state.layout.leftSectionCollapsed);
 
-  const [item, setItem] = useState<Item>(props.item as Item);
+  const [item, setItem] = useState<Item | null>(null);
 
-  if (props.item !== null && props.item.type === "id") {
-    getItem(props.item.getType, props.item.id).then((res) => {
-      setItem(res);
-    });
-    console.log("Got ID");
-  }
+  useEffect(() => {
+    console.log(props.item);
+    if(props.item === null) return;
+    if (props.item.type === "id") {
+      getItem(props.item.getType, props.item.id as string).then((res) => {
+        setItem(res);
+      });
+      console.log("Got ID");
+    }
+    else{
+      setItem(props.item as Item);
+    }
+  }, []);
 
   const [isOpened, setOpened] = useState(false);
 
@@ -42,19 +49,19 @@ export const LibraryItem = (props: Props) => {
           if (item.type === ItemType.PLAYLIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.PLAYLIST],
-              payload: { id: item.id, type: item.type },
+              payload: item,
             });
           }
           if (item.type === ItemType.ALBUM) {
             dispatch({
               type: MenuActionTypes[MenuTypes.ALBUM],
-              payload: { id: item.id, type: item.type },
+              payload: item,
             });
           }
           if (item.type === ItemType.ARTIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.ARTIST],
-              payload: { id: item.id, type: item.type },
+              payload: item,
             });
           }
         }}

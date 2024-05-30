@@ -3,10 +3,12 @@ import { LibraryItem } from '../Library/LibraryItem'
 import { library } from '../../data/userData'
 import { DisplayLibraryItem } from '../../components/ItemDisplays/DisplayLibraryItem'
 import { LikeButton } from '../../components/buttons/LikeButton'
+import { useAppSelector } from '../../redux/hooks'
 
 export const PlayerTrackInfo = () => {
-  const track = library[0];
+  const track = useAppSelector(state => state.player.playing);
+
   return (
-    <div className='w-1/4 flex justify-cneter items-center space-x-4'><DisplayLibraryItem item={track} /><LikeButton id={track.id} /></div>
+    track && <div className='w-1/4 flex justify-cneter items-center space-x-4'><DisplayLibraryItem item={track} /><LikeButton id={track.id as string} /></div>
   )
 }

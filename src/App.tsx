@@ -8,6 +8,7 @@ import { leftSectionSize } from "./config";
 import { PlayerSection } from "./sections/Player/PlayerSection";
 import { MainSection } from "./sections/Main/MainSection";
 import { AdditionalSection } from "./sections/Additional/AdditionalSection";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 function App() {
   const dispatch = useAppDispatch();

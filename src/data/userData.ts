@@ -17,8 +17,10 @@ export const getItem = (url: ApiType, id: string): Promise<Item> => {
 
 export const getItems = (url: ApiType): Promise<Item[]> => {
   return fetch(`http://localhost:5168/api/${url}`)
+    .then((response) => response.json())
     .then((res) => {
-      return res.json() as Promise<Item[]>;
+      console.log(res as Item[]);
+      return res as Item[];
     })
     .catch((e) => {
       console.error(e);

@@ -1,6 +1,6 @@
 import ItemType from "./ItemType";
 
-type ID = string; 
+type ID = number | string; 
 export interface Identificator {
     type: "id";
     id:ID;

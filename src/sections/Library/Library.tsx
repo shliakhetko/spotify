@@ -27,7 +27,7 @@ export const Library = () => {
   const [library, setLibrary] = useState<Item[]|null>(null);
 
   useEffect(() => {
-    const v = getItems("Playlist").then((res) => {
+    getItems("Playlist").then((res) => {
       setLibrary(res);
     });
   }, []);
@@ -51,7 +51,7 @@ export const Library = () => {
         noneFilter={noneFilter}
         setCurrentFilter={setCurrentFilter}
       />}
-      <LibraryList library={library as ListItemProps[] || []} currentFilter={currentFilter} />
+      <LibraryList library={library === null ? null : library as ListItemProps[]} currentFilter={currentFilter} />
     </div>
   );
 };
