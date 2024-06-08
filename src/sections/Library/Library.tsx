@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { MenuState } from "../../redux/reducers/menuReducer";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
-import { getItems } from "../../data/userData";
+import { getRandomItems } from "../../data/userData";
 import Item from "../../models/Item";
 import { ListItemProps } from "./LibraryItem";
 
@@ -17,18 +17,22 @@ export const Library = () => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const isCollapsed = useAppSelector(state=>state.layout.leftSectionCollapsed);
+  const isCollapsed = useAppSelector(
+    (state) => state.layout.leftSectionCollapsed
+  );
 
   const noneFilter: LibraryFilterItemProps = { type: undefined, title: "" };
   const [currentFilter, setCurrentFilter] = useState(noneFilter);
 
   const isSmall = useAppSelector((state) => state.layout.leftSectionCollapsed);
 
-  const [library, setLibrary] = useState<Item[]|null>(null);
+  const [library, setLibrary] = useState<Item[]>([]);
 
   useEffect(() => {
-    getItems("Playlist").then((res) => {
-      setLibrary(res);
+    let arr: Item[] = [];
+    getRandomItems(["Playlist", "Artist", "Folder"], 10).then((res) => {
+      arr = res;
+      setLibrary(arr);
     });
   }, []);
 
@@ -43,15 +47,20 @@ export const Library = () => {
       {/* <button onClick={()=>{
         dispatch({type:LayoutActionTypes.LEFT_SECTION});
       }}> */}
-        <LibraryTitle />
+      <LibraryTitle />
       {/* </button> */}
       {/* (ref.current && ref.current.clientWidth < 800) */}
-      {!isCollapsed && <LibraryFilter
+      {!isCollapsed && (
+        <LibraryFilter
+          currentFilter={currentFilter}
+          noneFilter={noneFilter}
+          setCurrentFilter={setCurrentFilter}
+        />
+      )}
+      <LibraryList
+        library={library === null ? null : (library as ListItemProps[])}
         currentFilter={currentFilter}
-        noneFilter={noneFilter}
-        setCurrentFilter={setCurrentFilter}
-      />}
-      <LibraryList library={library === null ? null : library as ListItemProps[]} currentFilter={currentFilter} />
+      />
     </div>
   );
 };

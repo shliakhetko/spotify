@@ -28,6 +28,42 @@ export const getItems = (url: ApiType): Promise<Item[]> => {
     });
 };
 
+export const getMultipleItems = async (urls: ApiType[]): Promise<Item[]> => {
+  let promises: Promise<Item[]>[] = [];
+
+  urls.forEach((url) => {
+    promises.push(
+      getItems(url)
+    );
+  })
+
+  let results = Promise.all(promises);
+  let items:Item[] = [];
+
+  (await results).forEach((res) => {
+    items = [...items, ...res];
+  });
+
+  return items;
+};
+
+export const getRandomItems = async (urls: ApiType[], amount: number): Promise<Item[]> => {
+  let items = await getMultipleItems(urls);
+
+  let currentIndex = items.length;
+
+  while (currentIndex != 0) {
+
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [items[currentIndex], items[randomIndex]] = [
+      items[randomIndex], items[currentIndex]];
+  }
+
+  return items.slice(0, amount);
+};
+
 export const library: ListItemProps[] = [
   {
     title: "PLAYLIST OOOH YEAH",

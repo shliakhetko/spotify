@@ -44,7 +44,7 @@ export const LibraryList = (props: Props) => {
             )
           ) : (
             props.library !== null && (
-              <li key={content.id}>
+              <li key={i}>
                 <LibraryItem item={content} />
               </li>
             )

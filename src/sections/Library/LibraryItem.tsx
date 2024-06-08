@@ -46,6 +46,9 @@ export const LibraryItem = (props: Props) => {
         className="w-full flex hover:bg-neutral-900 rounded-md relative"
         onClick={() => {
           if (item === null) return;
+          dispatch({
+            type: MenuActionTypes.HOME,
+          });
           if (item.type === ItemType.PLAYLIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.PLAYLIST],
