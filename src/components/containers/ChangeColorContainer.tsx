@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Item from "../../models/Item";
 import Playlist from "../../models/Items/Playlist";
 import { useAppDispatch } from "../../redux/hooks";
-import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
+import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 
 type Props = {
   item: Playlist;
@@ -17,12 +17,12 @@ export const ChangeColorContainer = (props: Props) => {
       className="h-full w-full"
       onMouseEnter={() => {
         dispatch({
-          type: LayoutActionTypes.SET_CURRENT_COLOR,
+          type: MenuActionTypes.SET_CURRENT_COLOR,
           payload: props.item.image || null,
         });
       }}
       onMouseLeave={() => {
-        dispatch({ type: LayoutActionTypes.SET_CURRENT_COLOR, payload: null });
+        dispatch({ type: MenuActionTypes.SET_CURRENT_COLOR, payload: null });
       }}
     >
       {props.children}

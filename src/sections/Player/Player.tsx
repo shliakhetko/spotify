@@ -168,6 +168,7 @@ export const Player = () => {
           onPause={handlePause}
           onProgress={handleProgress}
           onDuration={handleDuration}
+          loop={false}
           onEnded={handleEnded}
         />
       }

@@ -3,13 +3,15 @@ import menuReducer from "./reducers/menuReducer";
 import playerReducer from "./reducers/playerReducer";
 import layoutReducer from "./reducers/layoutReducer";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     menu: menuReducer,
     layout: layoutReducer,
     player: playerReducer
   },
 });
+
+export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

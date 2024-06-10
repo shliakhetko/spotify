@@ -12,9 +12,9 @@ interface Artist extends DefaultItem {
     id: ArtistID;
     title: string;
     image?: ImageURL;
-    tracks: TrackID[];
+    tracks: Track[];
     albums: AlbumID[];
-    playlists: PlaylistID[];
+    playlists: Playlist[];
     folders: FolderID[];
 }
 

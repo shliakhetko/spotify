@@ -41,15 +41,16 @@ export const PlaylistItem = (props: Props) => {
       }}
     >
       {props.isNumbered && (
-        <td className="border-l-md">
+        <td key={1} className="border-l-md">
           <div className="w-full flex justify-center relative">
             {isCurrentTrackSame ? (
-              hover &&
-              (isPlaying ? (
+              hover ? (isPlaying ? (
                 <FaPause size={12} className="text-white" />
               ) : (
                 <FaPlay size={12} className="text-white" />
-              ))
+              )) : (
+                !isPlaying && <span className="mx-0.5 text-green-500">{props.index + 1}</span>
+              )
             ) : hover ? (
               <FaPlay size={12} className="text-white" />
             ) : (
@@ -58,13 +59,13 @@ export const PlaylistItem = (props: Props) => {
             <PlayingGraphics
               className={classNames(
                 "absolute",
-                (!isCurrentTrackSame || hover) && "opacity-0"
+                (!isCurrentTrackSame || hover || !isPlaying) && "opacity-0"
               )}
             />
           </div>
         </td>
       )}
-      <td className="relative">
+      <td key={2} className="relative">
         {!props.isNumbered && hover && <div className="absolute left-0 top-0 translate-x-[0.525rem] translate-y-[0.525rem] h-[3rem] w-[3.05rem] flex justify-center items-center">
           {(isPlaying && isCurrentTrackSame ? (
               <FaPause size={12} className="text-white absolute z-30" />
@@ -78,7 +79,7 @@ export const PlaylistItem = (props: Props) => {
           isPlaying={isCurrentTrackSame || false}
         />
       </td>
-      <td className="">
+      <td key={3} className="">
         {new Date(props.track.date).toLocaleDateString("en-US")}
       </td>
     </tr>

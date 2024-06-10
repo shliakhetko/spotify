@@ -17,7 +17,7 @@ export const PlayButton = (props: Props) => {
         "rounded-full bg-green-500 text-black",
         props.className
       )}
-      onClick={() => props.onClick}
+      onClick={props.onClick}
     >
       {props.isPlaying ? <FaPause size={props.size} /> : <FaPlay size={props.size} />}
     </button>

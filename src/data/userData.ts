@@ -50,6 +50,12 @@ export const getMultipleItems = async (urls: ApiType[]): Promise<Item[]> => {
 export const getRandomItems = async (urls: ApiType[], amount: number): Promise<Item[]> => {
   let items = await getMultipleItems(urls);
 
+  items = shuffle(items);
+
+  return items.slice(0, amount);
+};
+
+export const shuffle = (items:Item[]):Item[] => {
   let currentIndex = items.length;
 
   while (currentIndex != 0) {
@@ -61,8 +67,8 @@ export const getRandomItems = async (urls: ApiType[], amount: number): Promise<I
       items[randomIndex], items[currentIndex]];
   }
 
-  return items.slice(0, amount);
-};
+  return items;
+}
 
 export const library: ListItemProps[] = [
   {

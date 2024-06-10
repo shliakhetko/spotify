@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const ImageByColor = (props: Props) => {
-  const currentImage = useAppSelector((state) => state.layout.currentColor);
+  const currentImage = useAppSelector((state) => state.menu.currentColor);
   const fac = new FastAverageColor();
   const [currentColor, setCurrentColor] = useState<string | null>(null);
 

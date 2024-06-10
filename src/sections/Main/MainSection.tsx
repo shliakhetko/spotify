@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { MenuActionTypes } from "../../redux/action-types/menuActionsTypes";
 import { MenuSectionType } from "../../redux/reducers/menuReducer";
@@ -9,11 +9,24 @@ import { FaChevronRight } from "react-icons/fa";
 import { List } from "./List";
 import { Panel } from "react-resizable-panels";
 import { PlaylistSection } from "./PlaylistSection";
+import { ArtistSection } from "./ArtistSection";
+import Artist from "../../models/Items/Artist";
+import Playlist from "../../models/Items/Playlist";
+import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
 
 export const MainSection = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.menu);
-  // const lyrics = useAppSelector((state)=>state.player.);
+  const content = useAppSelector((state) => state.menu.content);
+
+  // useEffect(() => {
+  //   if (state && "image" in state) {
+  //     dispatch({
+  //       type: LayoutActionTypes.SET_CURRENT_COLOR,
+  //       payload: state?.image || null,
+  //     });
+  //   }
+  // }, []);
 
   return (
     <Panel
@@ -24,7 +37,7 @@ export const MainSection = () => {
       className="h-full w-full p-1"
     >
       <div className="relative max-h-[100%-6rem] h-full rounded-lg bg-neutral-950">
-        <div className="absolute top-0 left-0 flex w-full p-4 rounded-t-lg">
+        <div className="absolute top-0 left-0 flex w-full p-4 rounded-t-lg z-40">
           <div className="space-x-2">
             <button
               className={classNames(
@@ -56,15 +69,17 @@ export const MainSection = () => {
           <div></div>
         </div>
         <div className="h-full pr-3.5 hover:pr-0.5 overflow-hidden hover:overflow-y-scroll">
-          {state.section === MenuSectionType.HOME ? (
+          {state && (state.section === MenuSectionType.HOME ? (
             <Home />
           ) : state.section === MenuSectionType.LIST ? (
             <List />
           ) : state.section === MenuSectionType.PLAYLIST ? (
-            <PlaylistSection />
+            <PlaylistSection item={content as Playlist} />
+          ) : state.section === MenuSectionType.ARTIST ? (
+            <ArtistSection item={content as Artist} />
           ) : (
             <></>
-          )}
+          ))}
         </div>
         {/* Home, Search, Playlist|Album, Artist, List, Lyrics */}
       </div>

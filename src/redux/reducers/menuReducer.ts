@@ -1,5 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
+  setCurrentColor,
   switchAlbum,
   switchArtist,
   switchHome,
@@ -12,6 +13,8 @@ import {
 } from "../actions/menuActions";
 import ID, { Identificator as Identificator } from "../../models/ID";
 import Item from "../../models/Item";
+import Artist from "../../models/Items/Artist";
+import { LayoutActionTypes } from "../action-types/layoutActionTypes";
 
 export interface ItemList { 
   title: string; 
@@ -37,7 +40,8 @@ export interface MenuState {
   | MenuSectionType.ARTIST
   | MenuSectionType.LIST
   | MenuSectionType.LYRICS;
-  content: Identificator | ItemList | undefined;
+  content: Item | ItemList | undefined;
+  currentColor?: string | null;
   previous: MenuState[];
   next: MenuState[]
 }
@@ -45,6 +49,7 @@ export interface MenuState {
 const menuInitialState: MenuState = {
   section: MenuSectionType.HOME,
   content: undefined,
+  currentColor: null,
   previous: [],
   next: []
 };
@@ -73,13 +78,14 @@ const menuReducer = createReducer(menuInitialState, (builder) => {
       state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
       state.section = MenuSectionType.PLAYLIST;
       state.content = action.payload;
+      state.currentColor = action.payload.image || null;
       state.next = [];
-      console.log("Switched to playlist", action.payload);
     })
     .addCase(switchArtist, (state, action) => {
       state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
       state.section = MenuSectionType.ARTIST;
       state.content = action.payload;
+      state.currentColor = action.payload.image || null;
       state.next = [];
     })
     .addCase(switchList, (state, action) => {
@@ -115,6 +121,10 @@ const menuReducer = createReducer(menuInitialState, (builder) => {
           state.content = currentState.content;
         }
       }
+    })
+    .addCase(setCurrentColor, (state, action) => {
+      state.currentColor = action.payload;
+      console.log(state.currentColor);
     });
 });
 
