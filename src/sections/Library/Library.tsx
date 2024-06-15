@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { LibraryTitle } from "./LibraryTitle";
 import { LibraryFilter } from "./LibraryFilter";
 import { LibraryList } from "./LibraryList";
-// import { library } from "../../data/userData";
 import { LibraryFilterItemProps } from "./LibraryFilterItem";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -11,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
 import { getRandomItems } from "../../data/userData";
 import Item from "../../models/Item";
-import { ListItemProps } from "./LibraryItem";
+import { LibraryItem, ListItemProps } from "./LibraryItem";
 
 export const Library = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -23,17 +22,16 @@ export const Library = () => {
 
   const noneFilter: LibraryFilterItemProps = { type: undefined, title: "" };
   const [currentFilter, setCurrentFilter] = useState(noneFilter);
+  const empty = new Array<null>(20).fill(null);
 
   const isSmall = useAppSelector((state) => state.layout.leftSectionCollapsed);
 
-  const [library, setLibrary] = useState<Item[]>([]);
+  const [library, setLibrary] = useState<Item[] | null>(null);
 
   useEffect(() => {
-    let arr: Item[] = [];
     getRandomItems(["Playlist", "Artist", "Folder"], 10).then((res) => {
-      arr = res;
-      setLibrary(arr);
-    });
+      setLibrary(res);
+    })
   }, []);
 
   return (
@@ -57,10 +55,33 @@ export const Library = () => {
           setCurrentFilter={setCurrentFilter}
         />
       )}
-      <LibraryList
-        library={library === null ? null : (library as ListItemProps[])}
-        currentFilter={currentFilter}
-      />
+      {library ? (
+        <LibraryList
+          library={library as ListItemProps[]}
+          currentFilter={currentFilter}
+        />
+      ) : (
+        <ul>
+          {empty.map((content, i) => (
+            <li key={i}>
+              <LibraryItem item={content} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
+
+// export const List = (props:Item[]|null) => {
+//   return (
+//     props.library?<LibraryList
+//         library={library ? (library as ListItemProps[]) : null}
+//         currentFilter={currentFilter}
+//       />:empty.map((content, i) => (
+//         <li key={i}>
+//           <LibraryItem item={content} />
+//         </li>
+//       ))
+//   )
+// }

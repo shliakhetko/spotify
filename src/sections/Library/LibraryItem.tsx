@@ -16,7 +16,7 @@ import { getItem } from "../../data/userData";
 
 export type ListItemProps = Album | Playlist | Artist | Folder;
 
-type Props = { item: ListItemProps | Identificator | null };
+type Props = { item: ListItemProps | null };
 
 export const LibraryItem = (props: Props) => {
   const dispatch = useAppDispatch();
@@ -25,16 +25,10 @@ export const LibraryItem = (props: Props) => {
   const [item, setItem] = useState<Item | null>(null);
 
   useEffect(() => {
-    console.log(props.item);
-    if(props.item === null) return;
-    if (props.item.type === "id") {
-      getItem(props.item.getType, props.item.id as string).then((res) => {
-        setItem(res);
-      });
-      console.log("Got ID");
-    }
-    else{
-      setItem(props.item as Item);
+    console.log("LibraryItem", props.item);
+    if (props.item !== null){
+      setItem(props.item);
+      return;
     }
   }, []);
 
@@ -46,9 +40,6 @@ export const LibraryItem = (props: Props) => {
         className="w-full flex hover:bg-neutral-900 rounded-md relative"
         onClick={() => {
           if (item === null) return;
-          dispatch({
-            type: MenuActionTypes.HOME,
-          });
           if (item.type === ItemType.PLAYLIST) {
             dispatch({
               type: MenuActionTypes[MenuTypes.PLAYLIST],

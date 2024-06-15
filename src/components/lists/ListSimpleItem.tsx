@@ -9,6 +9,7 @@ import Playlist from "../../models/Items/Playlist";
 
 interface Props {
   list: Item[];
+  isSekeleton?: boolean;
 }
 
 export const ListSimpleItem = (props: Props) => {
@@ -17,12 +18,31 @@ export const ListSimpleItem = (props: Props) => {
   const [render, setRender] = useState<boolean>(false);
 
   const numberInRow = width > 1000 ? 4 : 2;
+  const emptySimpleList = new Array<null>(8).fill(null);
 
   useEffect(() => {
     setTimeout(() => {
       setRender(true);
     }, 50);
   });
+
+  if (props.isSekeleton)
+    return (
+      <div className="pt-1 pb-6" ref={ref}>
+        <ul
+          className={classNames("grid", !render && "opacity-0")}
+          style={{
+            gridTemplateColumns: `repeat(${numberInRow}, minmax(0, 1fr))`,
+          }}
+        >
+          {emptySimpleList.map((item, i) => (
+            <li key={i} className="h-fit w-full p-1 cursor-pointer">
+              <DisplaySimpleItem item={null} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
 
   const list = [...props.list].slice(0, 8);
 
@@ -39,7 +59,7 @@ export const ListSimpleItem = (props: Props) => {
             item.type !== ItemType.FOLDER && (
               <li key={i} className="h-fit w-full p-1 cursor-pointer">
                 <ChangeColorContainer item={item as Playlist}>
-                  <DisplaySimpleItem {...item} />
+                  <DisplaySimpleItem item={item || null} />
                 </ChangeColorContainer>
               </li>
             )

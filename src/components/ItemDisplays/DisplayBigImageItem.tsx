@@ -6,12 +6,30 @@ import classNames from 'classnames';
 import "./index.scss";
 import useRefWidth from '../../hooks/useRefWidth';
 import { PlayButton } from '../buttons/PlayButton';
+import Skeleton from 'react-loading-skeleton';
 
-export const DisplayBigImageItem = (props: Item) => {
+export const DisplayBigImageItem = (props: {item:Item|null}) => {
   const ref = useRef<HTMLDivElement>(null);
   const width = useRefWidth(ref);
 
-  const type = props.type;
+  if(props.item === null) return (<div className="DisplayBigItemImage h-fit w-fit flex flex-col">
+    <div
+      className={classNames(
+        "w-full relative flex justify-center items-center bg-neutral-800 text-neutral-300"
+      )}
+      style={{height:width}}
+      ref={ref}
+    >
+    </div>
+    <div className="mt-2 flex flex-col justify-center text-left leading-tight">
+      <span className="text-white text-sm"><Skeleton width={120} height={12} /></span>
+      <span className="text-neutral-400 text-sm">
+        <Skeleton width={80} height={10} />
+      </span>
+    </div>
+  </div>);
+
+  const type = props.item.type;
   const roundedClass =
     type === ItemType.ARTIST ? "rounded-full" : "rounded-md";
 
@@ -26,26 +44,26 @@ export const DisplayBigImageItem = (props: Item) => {
         ref={ref}
       >
         {type !== ItemType.FOLDER && (
-          props.image !== undefined &&
-          typeof props.image === "string" && (
+          props.item.image !== undefined &&
+          typeof props.item.image === "string" && (
             <img
               className={classNames("object-cover", roundedClass)}
-              alt={props.title}
-              src={props.image}
+              alt={props.item.title}
+              src={props.item.image}
             />
           )
         )}
         <PlayButton className='p-3 right-2 bottom-2 absolute'/>
       </div>
       <div className="mt-2 flex flex-col justify-center text-left leading-tight">
-        <span className="text-white text-sm">{props.title}</span>
+        <span className="text-white text-sm">{props.item.title}</span>
         <span className="text-neutral-400 text-sm">
           {type === ItemType.ARTIST ? (
             <>Artist</>
           ) : type === ItemType.PLAYLIST ? (
-            <>{props.owner.length > 0 && props.owner[0].title}</>
+            <>{props.item.owner.length > 0 && props.item.owner[0].title}</>
           ) : (
-            type === ItemType.ALBUM && <>{props.owner.length > 0 && props.owner[0].title}</>
+            type === ItemType.ALBUM && <>{props.item.owner.length > 0 && props.item.owner[0].title}</>
           )}
         </span>
       </div>
