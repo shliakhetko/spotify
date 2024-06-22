@@ -3,8 +3,9 @@ import { PlayerActionTypes } from "../action-types/playerActionTypes";
 import Track from "../../models/Items/Track";
 import Playlist from "../../models/Items/Playlist";
 import Album from "../../models/Items/Album";
+import Artist from "../../models/Items/Artist";
 
-type PlayItem = Track | Playlist;
+type PlayItem = Track | Playlist | Artist;
 // | Album;
 
 export const playNew = createAction<PlayItem>(PlayerActionTypes.PLAY_NEW);

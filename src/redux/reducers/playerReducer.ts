@@ -16,6 +16,7 @@ import Playlist from "../../models/Items/Playlist";
 import Album from "../../models/Items/Album";
 import Track from "../../models/Items/Track";
 import ItemType from "../../models/ItemType";
+import Artist from "../../models/Items/Artist";
 
 export enum LoopType {
     None,
@@ -27,7 +28,7 @@ export interface PlayerState {
     remix: boolean;
     loop: LoopType;
     playing: Track | null;
-    playlist: Track | Playlist | Album | null;
+    playlist: Track | Playlist | Album | Artist | null;
     previous: Track[];
     next: Track[];
     isPlaying: boolean;
@@ -54,7 +55,13 @@ const playerReducer = createReducer(playerInitialState, (builder) => {
                 state.playing = action.payload;
                 state.next = [action.payload];
             } else {
-                state.next = [...action.payload.contents];
+                if (type == ItemType.ARTIST) {
+                    state.next = [...action.payload.tracks];
+                }else if (type == ItemType.PLAYLIST) {
+                    state.next = [...action.payload.contents];
+                } else if (type == ItemType.TRACK) {
+                    state.next = [action.payload];
+                }
                 state.playing = state.next.shift() || null;
             }
 
@@ -64,19 +71,16 @@ const playerReducer = createReducer(playerInitialState, (builder) => {
             if (state.playing != null) {
                 if (state.next.length > 0) {
                     state.previous.push(state.playing);
-                    console.log(1);
                 }
                 if (state.previous.length > 0 && state.next.length == 0) {
                     state.previous.push(state.playing);
                     state.next = [...state.previous];
-                    console.log(2);
                 }
                 if (
                     (state.previous.length == 0 && state.next.length == 0) ||
                     state.loop == LoopType.Track
                 ) {
                     state.next = [state.playing];
-                    console.log(3);
                 }
 
                 if (state.remix) {
@@ -100,10 +104,12 @@ const playerReducer = createReducer(playerInitialState, (builder) => {
         })
         .addCase(addToQueue, (state, action) => {
             const type = action.payload.type;
-            if (type == ItemType.TRACK) {
-                state.next = [...state.next, action.payload];
-            } else {
-                state.next = [...state.next, ...action.payload.contents];
+            if (type == ItemType.ARTIST) {
+                state.next = [...action.payload.tracks];
+            }else if (type == ItemType.PLAYLIST) {
+                state.next = [...action.payload.contents];
+            } else if (type == ItemType.TRACK) {
+                state.next = [action.payload];
             }
         })
         .addCase(removeFromQueue, (state, action) => {

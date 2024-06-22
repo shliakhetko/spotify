@@ -25,7 +25,6 @@ export const LibraryItem = (props: Props) => {
   const [item, setItem] = useState<Item | null>(null);
 
   useEffect(() => {
-    console.log("LibraryItem", props.item);
     if (props.item !== null){
       setItem(props.item);
       return;

@@ -20,7 +20,7 @@ export const ImageByColor = (props: Props) => {
           setCurrentColor(color.hex);
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
         });
     }
   });

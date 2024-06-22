@@ -1,18 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getItem } from "../../data/userData";
-import { Identificator } from "../../models/ID";
+import { getItem, getMultipleItems } from "../../data/userData";
 import Item from "../../models/Item";
-import Playlist from "../../models/Items/Playlist";
 import classNames from "classnames";
 import { ImageByColor } from "../../components/graphics/ImageByColor";
-import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
 import { PlayButton } from "../../components/buttons/PlayButton";
 import { PlaylistItem } from "./PlaylistItem";
-import { Player } from "../Player/Player";
-import { PlayerActionTypes } from "../../redux/action-types/playerActionTypes";
 import Artist from "../../models/Items/Artist";
-import { DisplayBigImageItem } from "../../components/ItemDisplays/DisplayBigImageItem";
 import { ListBigImageItem } from "../../components/lists/ListBigImageItem";
 
 type Props = {
@@ -20,19 +14,35 @@ type Props = {
 };
 
 export const ArtistSection = (props: Props) => {
-  const dispatch = useAppDispatch();
-  const item = props.item;
-  const playingPlayilist = useAppSelector((state) => state.player.playlist);
+  const content = props.item;
   const width = useAppSelector((state) => state.layout.screenWidth);
 
   // const [item, setItem] = useState<Artist | null>(null);
-
-  const recomendations = item.playlists;
+  const [item, setItem] = useState<Artist>(content);
+  const [discography, setDiscography] = useState<Item[]>(content.playlists);
 
   useEffect(() => {
-    // setItem(content);
-    
-  }, []);
+    if (content !== item) {
+      getItem(content.type, content.id).then((item) => {
+        const newItem = item as Artist;
+        setItem(newItem);
+        if (newItem.playlists.length === 0) return;
+        getMultipleItems(
+          newItem.playlists[0].type,
+          newItem.playlists.map((playlist) => playlist.id)
+        ).then((items) => {
+          setDiscography(items);
+        });
+      });
+    }
+    // if (item.playlists.length === 0) return;
+    //     getMultipleItems(
+    //       item.playlists[0].type,
+    //       item.playlists.map((playlist) => playlist.id)
+    //     ).then((items) => {
+    //       setDiscography(items);
+    //     });
+  }, [props.item]);
 
   return (
     <div className="h-full relative">
@@ -65,17 +75,7 @@ export const ArtistSection = (props: Props) => {
           </div>
           <div className="p-4 bg-[rgba(10,10,10,0.3)]">
             <div>
-              <PlayButton
-                onClick={() => {
-                  dispatch({ type: PlayerActionTypes.PLAY_NEW, payload: item });
-                }}
-                className="p-5"
-                size={16}
-                isPlaying={
-                  (playingPlayilist && item.id === playingPlayilist.id) ||
-                  false
-                }
-              />
+              <PlayButton className="p-5" size={16} item={props.item} />
             </div>
             <span className="mt-6 text-[1.25rem] font-bold">Popular</span>
             <div className="mt-4 mb-10">
@@ -93,10 +93,14 @@ export const ArtistSection = (props: Props) => {
                 </tbody>
               </table>
             </div>
-            <span className="text-[1.25rem] font-bold">Discography</span>
-            <div className="mt-4">
-              <ListBigImageItem list={recomendations} isExtended={false} />
-            </div>
+            {item.playlists.length > 0 && (
+              <>
+                <span className="text-[1.25rem] font-bold">Discography</span>
+                <div className="mt-4">
+                  <ListBigImageItem list={discography} isExtended={false} />
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

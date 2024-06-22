@@ -4,7 +4,7 @@ import { ListItemProps } from "../sections/Library/LibraryItem";
 
 type ApiType = "Track" | "Playlist" | "Artist" | "Folder" | ItemType;
 
-export const getItem = (url: ApiType, id: string): Promise<Item> => {
+export const getItem = (url: ApiType, id: string|number): Promise<Item> => {
   return fetch(`http://localhost:5168/api/${url}/${id}`)
     .then((res) => {
       return res.json() as Promise<Item>;
@@ -15,11 +15,29 @@ export const getItem = (url: ApiType, id: string): Promise<Item> => {
     });
 };
 
+export const getMultipleItems = async (url: ApiType, ids:(string|number)[]): Promise<Item[]> => {
+  let promises: Promise<Item>[] = [];
+
+  ids.forEach((id) => {
+    promises.push(
+      getItem(url, id)
+    );
+  })
+
+  let results = Promise.all(promises);
+  let items:Item[] = [];
+
+  (await results).forEach((res) => {
+    items = [...items, res];
+  });
+
+  return items;
+};
+
 export const getItems = (url: ApiType): Promise<Item[]> => {
   return fetch(`http://localhost:5168/api/${url}`)
     .then((response) => response.json())
     .then((res) => {
-      console.log(res as Item[]);
       return res as Item[];
     })
     .catch((e) => {
@@ -28,7 +46,7 @@ export const getItems = (url: ApiType): Promise<Item[]> => {
     });
 };
 
-export const getMultipleItems = async (urls: ApiType[]): Promise<Item[]> => {
+export const getMultipleTypeItems = async (urls: ApiType[]): Promise<Item[]> => {
   let promises: Promise<Item[]>[] = [];
 
   urls.forEach((url) => {
@@ -48,7 +66,7 @@ export const getMultipleItems = async (urls: ApiType[]): Promise<Item[]> => {
 };
 
 export const getRandomItems = async (urls: ApiType[], amount: number): Promise<Item[]> => {
-  let items = await getMultipleItems(urls);
+  let items = await getMultipleTypeItems(urls);
 
   items = shuffle(items);
 

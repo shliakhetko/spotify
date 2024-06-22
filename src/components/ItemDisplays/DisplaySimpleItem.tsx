@@ -6,9 +6,15 @@ import { CiFolderOn } from "react-icons/ci";
 import { PlayButton } from "../buttons/PlayButton";
 import { PlayingGraphics } from "../graphics/PlayingGraphics";
 import Skeleton from "react-loading-skeleton";
+import { PlayerActionTypes } from "../../redux/action-types/playerActionTypes";
+import { useAppDispatch } from "../../redux/hooks";
 
-export const DisplaySimpleItem = (props: { item: Item | null }) => {
+type Props = {
+  item: Item | null;
+};
 
+export const DisplaySimpleItem = (props: Props) => {
+  const dispatch = useAppDispatch();
   const [hover, setHover] = useState<boolean>(false);
 
   if (props.item === null)
@@ -82,7 +88,7 @@ export const DisplaySimpleItem = (props: { item: Item | null }) => {
             <PlayButton
               className="p-2 shadow-2xl"
               size={10}
-              onClick={() => {}}
+              item = {props.item}
             />
           )
         )}

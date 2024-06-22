@@ -39,7 +39,6 @@ export const MenuItem = (props: Props) => {
         dispatch({
           type: MenuActionTypes[props.actionType],
         });
-        console.log(state);
       }}
       onMouseEnter={() => {
         setHover(true);

@@ -58,15 +58,9 @@ export const PlaylistSection = (props:Props) => {
           <div className="p-4 bg-[rgba(10,10,10,0.3)]">
             <div>
               <PlayButton
-                onClick={() => {
-                  dispatch({ type: PlayerActionTypes.PLAY_NEW, payload: item });
-                }}
+                item = {props.item}
                 className="p-5"
                 size={16}
-                isPlaying={
-                  (playingPlayilist && item.id === playingPlayilist.id) ||
-                  false
-                }
               />
             </div>
             <div className="mt-4 mb-10">

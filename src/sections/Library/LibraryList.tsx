@@ -12,7 +12,6 @@ export const LibraryList = (props: Props) => {
   const [library, setLibrary] = useState<ListItemProps[] | null>(null);
 
   useEffect(() => {
-    console.log("LibraryList", library);
     if (props.library && props.library[0] !== null)
       setLibrary(props.library);
   });

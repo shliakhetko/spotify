@@ -16,9 +16,9 @@ import Item from "../../models/Item";
 import Artist from "../../models/Items/Artist";
 import { LayoutActionTypes } from "../action-types/layoutActionTypes";
 
-export interface ItemList { 
-  title: string; 
-  list: Item[] 
+export interface ItemList {
+  title: string;
+  list: Item[]
 }
 
 export enum MenuSectionType {
@@ -57,48 +57,62 @@ const menuInitialState: MenuState = {
 const menuReducer = createReducer(menuInitialState, (builder) => {
   builder
     .addCase(switchHome, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.HOME;
-      state.content = undefined;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.HOME,
+        content: undefined,
+        next: []
+      });
     })
     .addCase(switchSearch, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.SEARCH;
-      state.content = undefined;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.SEARCH,
+        content: undefined,
+        next: []
+      });
     })
     .addCase(switchAlbum, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.ALBUM;
-      state.content = action.payload;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.ALBUM,
+        content: action.payload,
+        next: []
+      });
     })
     .addCase(switchPlaylist, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.PLAYLIST;
-      state.content = action.payload;
-      state.currentColor = action.payload.image || null;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.PLAYLIST,
+        content: action.payload,
+        currentColor: action.payload.image || null,
+        next: []
+      });
     })
     .addCase(switchArtist, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.ARTIST;
-      state.content = action.payload;
-      state.currentColor = action.payload.image || null;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.ARTIST,
+        content: action.payload,
+        currentColor: action.payload.image || null,
+        next: []
+      });
     })
     .addCase(switchList, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.LIST;
-      state.content = action.payload;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.LIST,
+        content: action.payload,
+        next: []
+      });
     })
     .addCase(switchLyrics, (state, action) => {
-      state.previous.push({ section: state.section, content: state.content, previous: [], next: [] });
-      state.section = MenuSectionType.LYRICS;
-      state.content = undefined;
-      state.next = [];
+      Object.assign(state, {
+        previous: [...state.previous, { section: state.section, content: state.content, previous: [], next: [] }],
+        section: MenuSectionType.LYRICS,
+        content: undefined,
+        next: []
+      });
     })
     .addCase(switchToPrevious, (state, action) => {
       if (state.previous.length > 0) {
@@ -124,7 +138,6 @@ const menuReducer = createReducer(menuInitialState, (builder) => {
     })
     .addCase(setCurrentColor, (state, action) => {
       state.currentColor = action.payload;
-      console.log(state.currentColor);
     });
 });
 
