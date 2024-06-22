@@ -5,7 +5,7 @@ import ItemType from "../../models/ItemType";
 import { CiFolderOn } from "react-icons/ci";
 import Skeleton from "react-loading-skeleton";
 
-export const DisplayLibraryItem = (props: { item: Item | null, isPlaying?: boolean }) => {
+export const DisplayLibraryItem = (props: { item: Item | null, isPlaying?: boolean, showArtist?: boolean }) => {
   if (props.item === null)
     return (
       <div className="p-2 flex">
@@ -54,7 +54,9 @@ export const DisplayLibraryItem = (props: { item: Item | null, isPlaying?: boole
       <div className="ml-4 mt-1 flex flex-col justify-center text-left leading-tight">
         <span className={classNames(props.isPlaying ? "text-green-500" : "text-white", "whitespace-nowrap")}>{props.item.title}</span>
         <span className="text-neutral-400 whitespace-nowrap">
-          {type === ItemType.FOLDER ? (
+          {type === ItemType.TRACK ? (
+            <>{props.showArtist && props.item.owner[0].title}</>
+          ) :type === ItemType.FOLDER ? (
             <>{props.item.contents.length} Playlists</>
           ) : type === ItemType.ARTIST ? (
             <>Artist</>

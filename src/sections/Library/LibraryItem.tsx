@@ -26,7 +26,9 @@ export const LibraryItem = (props: Props) => {
 
   useEffect(() => {
     if (props.item !== null){
-      setItem(props.item);
+      getItem(props.item.type, props.item.id).then((item) => {
+        setItem(item);
+      });
       return;
     }
   }, []);

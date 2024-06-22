@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { PlayerActionTypes } from "../../redux/action-types/playerActionTypes";
 import { PlayingGraphics } from "../../components/graphics/PlayingGraphics";
 import classNames from "classnames";
+import { getItem } from "../../data/userData";
 
 type Props = {
   track: Track;
@@ -37,7 +38,9 @@ export const PlaylistItem = (props: Props) => {
           if (isPlaying) dispatch({ type: PlayerActionTypes.SET_PAUSE });
           else dispatch({ type: PlayerActionTypes.SET_PLAY });
         } else
-          dispatch({ type: PlayerActionTypes.PLAY_NEW, payload: props.track });
+        getItem(props.track.type, props.track.id).then((item) => {
+          dispatch({ type: PlayerActionTypes.PLAY_NEW, payload: item });
+        });
       }}
     >
       {props.isNumbered && (

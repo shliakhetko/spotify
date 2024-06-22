@@ -9,7 +9,7 @@ export const PlayerSection = () => {
   const currentTrack = useAppSelector(state=>state.menu);
 
   return (
-    <div className='h-24 w-full flex justify-between text-neutral-100'>
+    <div className='h-24 w-full flex justify-between text-neutral-100 relative'>
       <PlayerTrackInfo />
       <Player />
       <PlayerSettings />

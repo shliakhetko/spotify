@@ -20,7 +20,7 @@ export const PlayerSettings = () => {
   };
 
   return (
-    <div className='w-1/4 flex items-center pr-4'>
+    <div className='w-1/4 flex justify-end items-center pr-4'>
       <div className='flex space-x-4'>
         <button className={classNames('')}><AiOutlinePlaySquare /></button>
         <button className={classNames('')}><PiMicrophoneStageBold /></button>
