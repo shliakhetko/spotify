@@ -1,0 +1,15 @@
+export enum PlayerActionTypes {
+    PLAY_NEW = "PLAY_NEW",
+    PLAY_NEXT = "PLAY-NEXT",
+    PLAY_PREVIOUS = "PLAY-PREVIOUS",
+
+    ADD_TO_QUEUE = "ADD-TO-QUEUE",
+    REOVE_FROM_QUEUE = "REMOVE-FROM-QUEUE",
+
+    REMIX = "REMIX",
+    LOOP = "LOOP",
+
+    SET_PAUSE = "SET-PAUSE",
+    SET_PLAY = "SET-PLAY",
+    VOLUME = "VOLUME"
+}

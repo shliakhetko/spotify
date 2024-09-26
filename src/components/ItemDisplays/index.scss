@@ -1,0 +1,13 @@
+.DisplayBigItemImage{
+    &:hover{
+        button{
+            transform: translateY(0rem);
+            opacity: 1;
+        }
+    }
+    button{
+        transform: translateY(0.5rem);
+            opacity: 0;
+            transition: 0.15s;
+    }
+}
