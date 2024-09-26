@@ -1,6 +1,5 @@
 import React from "react";
 import { LibraryItem } from "../Library/LibraryItem";
-import { library } from "../../data/userData";
 import { DisplayLibraryItem } from "../../components/ItemDisplays/DisplayLibraryItem";
 import { LikeButton } from "../../components/buttons/LikeButton";
 import { useAppSelector } from "../../redux/hooks";

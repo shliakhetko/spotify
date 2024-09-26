@@ -11,6 +11,6 @@ export const List = () => {
     const { title, list } = state.content as ItemList || { title: "", list: [] };
 
     return (
-        <div className='h-full overflow-hidden hover:overflow-y-scroll'><SectionBigImageItem title={title} list={list} isExtendable={false} /></div>
+        <div className='h-full pt-16 overflow-hidden hover:overflow-y-scroll'><SectionBigImageItem title={title} list={list} isExtendable={false} /></div>
     )
 }

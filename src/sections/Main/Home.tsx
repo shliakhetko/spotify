@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRandomItems, library } from "../../data/userData";
+import { getRandomItems } from "../../data/userData";
 import { SectionBigImageItem } from "../../components/sections/SectionBigImageItem";
 import { ListSimpleItem } from "../../components/lists/ListSimpleItem";
 import ItemType from "../../models/ItemType";

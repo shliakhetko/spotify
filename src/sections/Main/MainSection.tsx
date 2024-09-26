@@ -13,6 +13,7 @@ import { ArtistSection } from "./ArtistSection";
 import Artist from "../../models/Items/Artist";
 import Playlist from "../../models/Items/Playlist";
 import { LayoutActionTypes } from "../../redux/action-types/layoutActionTypes";
+import { Search } from "./Search";
 
 export const MainSection = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +38,7 @@ export const MainSection = () => {
       className="h-full w-full p-1"
     >
       <div className="relative max-h-[100%-6rem] h-full rounded-lg bg-neutral-950">
-        <div className="absolute top-0 left-0 flex w-full p-4 rounded-t-lg z-40">
+        <div className="absolute top-0 left-0 flex p-4 rounded-t-lg z-40">
           <div className="space-x-2">
             <button
               className={classNames(
@@ -71,6 +72,8 @@ export const MainSection = () => {
         <div className="h-full pr-3.5 hover:pr-0.5 overflow-hidden hover:overflow-y-scroll">
           {state && (state.section === MenuSectionType.HOME ? (
             <Home />
+          ) : state.section === MenuSectionType.SEARCH ? (
+            <Search/>
           ) : state.section === MenuSectionType.LIST ? (
             <List />
           ) : state.section === MenuSectionType.PLAYLIST ? (
