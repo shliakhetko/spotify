@@ -1,1 +1,0 @@
-export const leftSectionSize = 64;
